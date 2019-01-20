@@ -46,3 +46,18 @@ jobs:
       - attach_workspace:
           at: .
       - run: npm run lint
+
+workflows:
+  version: 2
+  check:
+    jobs:
+      - prepare
+      - lint:
+          requires:
+            - prepare
+      - build:
+          requires:
+            - lint
+      - test:
+          requires:
+            - build
