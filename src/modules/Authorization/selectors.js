@@ -1,13 +1,14 @@
 import { compose, isEmpty, not, pipe, prop } from 'ramda';
 
 const baseAuthorizationSelector = prop('authorization');
-const baseAuthorizationTokenSelector = pipe(
+
+export const getAuthorizationTokenSelector = pipe(
   baseAuthorizationSelector,
   prop('token')
 );
 
 export const isAuthorizedSelector = pipe(
-  baseAuthorizationTokenSelector,
+  getAuthorizationTokenSelector,
   compose(
     not,
     isEmpty
