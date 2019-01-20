@@ -10,7 +10,9 @@
   "rules": {
     "prettier/prettier": ["error"],
     "jsx-a11y/href-no-hash": [0],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/destructuring-assignment": "off",
+    "react/button-has-type": "off"
   },
   "globals": {
     "window": true,
@@ -19,7 +21,8 @@
     "FormData": true,
     "FileReader": true,
     "Blob": true,
-    "navigator": true
+    "navigator": true,
+    "fetch": true
   },
   "parser": "babel-eslint",
   "overrides": [
@@ -30,7 +33,13 @@
       }
     },
     {
-      "files": ["src/modules/**/actions.js", "src/modules/**/constants/*.js"],
+      "files": [
+        "src/constants/*.js",
+        "src/modules/API/*.js",
+        "src/modules/**/actions.js",
+        "src/modules/**/constants/*.js",
+        "src/modules/**/selectors.js"
+      ],
       "rules": {
         "import/prefer-default-export": "off"
       }
