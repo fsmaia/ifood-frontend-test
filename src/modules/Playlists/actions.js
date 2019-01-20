@@ -4,6 +4,7 @@ import {
   GET_FEATURED_PLAYLISTS_SUCCESS
 } from './constants';
 import * as spotifyAPI from '../API/spotify';
+import { clearAuthorizationAccessToken } from '../Authorization/actions';
 
 const PLAYLISTS_PER_PAGE = 8;
 
@@ -31,5 +32,9 @@ export const getFeaturedPlaylists = (token, page = 1, country, locale, timestamp
     })
     .catch(error => {
       dispatch(getFeaturedPlaylistsErrorAction(error));
+
+      if (error.message === spotifyAPI.SPOTIFY_FEATURED_PLAYLIST_ERRORS.UNAUTHORIZED) {
+        dispatch(clearAuthorizationAccessToken());
+      }
     });
 };
