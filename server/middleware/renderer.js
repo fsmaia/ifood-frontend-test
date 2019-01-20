@@ -9,6 +9,7 @@ import { Helmet } from 'react-helmet';
 import App from '../../src/modules/App';
 
 // import the manifest generated with the create-react-app build
+// eslint-disable-next-line import/no-unresolved
 import manifest from '../../build/asset-manifest.json';
 
 const extractAssets = (assets, chunks) =>
