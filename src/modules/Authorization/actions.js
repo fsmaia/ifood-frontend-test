@@ -6,5 +6,5 @@ import {
 export const saveAuthorizationAccessToken = token => dispatch =>
   dispatch({ type: SAVE_AUTHORIZATION_ACCESS_TOKEN, token });
 
-export const clearAuthorizationAccessToken = dispatch =>
+export const clearAuthorizationAccessToken = () => dispatch =>
   dispatch({ type: CLEAR_AUTHORIZATION_ACCESS_TOKEN });
