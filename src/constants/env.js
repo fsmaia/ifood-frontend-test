@@ -1,0 +1,4 @@
+export const {
+  REACT_APP_BASE_URL: BASE_URL,
+  REACT_APP_SPOTIFY_CLIENT_ID: SPOTIFY_CLIENT_ID
+} = process.env;
