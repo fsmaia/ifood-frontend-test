@@ -14,3 +14,5 @@ const SPOTIFY_AUTH_REDIRECT_URL_PARAMS = {
 export const SPOTIFY_AUTH_REDIRECT_URL = `https://accounts.spotify.com/authorize?${stringify(
   SPOTIFY_AUTH_REDIRECT_URL_PARAMS
 )}`;
+
+export const SPOTIFY_API_BASE_URL = 'https://api.spotify.com/v1';
