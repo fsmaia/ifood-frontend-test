@@ -1,0 +1,10 @@
+@import '../../../../../style/abstracts/all';
+
+.FiltersField {
+  &__label {
+    margin-left: $base-spacements-size;
+    margin-bottom: $base-spacements-size;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+}

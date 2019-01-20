@@ -1,0 +1,7 @@
+@import '../../../../../style/abstracts/all';
+
+.FiltersFieldText {
+  &__input {
+    @include field-input();
+  }
+}
