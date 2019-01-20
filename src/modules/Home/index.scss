@@ -1,0 +1,9 @@
+@import '../../../style/abstracts/all';
+
+.Home {
+  &__section {
+    &--playlists {
+      margin-top: $base-spacements-size * 2;
+    }
+  }
+}

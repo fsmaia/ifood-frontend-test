@@ -7,8 +7,10 @@
   justify-content: center;
   position: fixed;
   top: 0;
-  padding: $base-spacements-size * 4;
+  padding: $base-spacements-size * 2 $base-spacements-size * 4;
   box-sizing: border-box;
+  background: $spotify-black-color;
+  border-bottom: 2px solid lighten($spotify-black-color, 5%);
 
   &__logo {
     height: 80px;

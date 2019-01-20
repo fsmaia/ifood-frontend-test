@@ -1,11 +1,13 @@
 @import '../../../style/abstracts/all';
 
+$body-padding-y: $base-spacements-size * 2;
+
 .App {
   background-color: $spotify-black-color;
   font-size: calc(10px + 2vmin);
   color: $spotify-white-color;
 
   &__body {
-    padding: $header-height $base-spacements-size * 4;
+    padding: $header-height + $body-padding-y $base-spacements-size * 4 $body-padding-y;
   }
 }

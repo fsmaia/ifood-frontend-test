@@ -1,6 +1,25 @@
 @import '../../../style/abstracts/all';
 
 .Playlists {
+  &__header {
+    display: flex;
+    align-items: center;
+    padding-bottom: $base-spacements-size/2;
+    margin-bottom: $base-spacements-size * 2;
+    border-bottom: 1px solid $base-border-color;
+  }
+
+  &__title {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  &__count {
+    font-size: 16px;
+    text-transform: uppercase;
+    margin-left: auto;
+  }
+
   &__items {
     display: grid;
     box-sizing: border-box;

@@ -8,11 +8,13 @@ import {
   getPlaylistsSelector,
   isEmptyPlaylistsSelector,
   hasLoadedPlaylistsSelector,
-  isLoadingPlaylistsSelector
+  isLoadingPlaylistsSelector,
+  getPlaylistsTotalCountSelector
 } from './selectors';
 import { PlaylistShape } from './shapes';
 import PlaylistsItem from './components/Item';
 import './index.scss';
+import SectionHeader from '../App/components/SectionHeader';
 
 @connect(
   state => ({
@@ -20,7 +22,8 @@ import './index.scss';
     loading: isLoadingPlaylistsSelector(state),
     loaded: hasLoadedPlaylistsSelector(state),
     playlists: getPlaylistsSelector(state),
-    token: getAuthorizationTokenSelector(state)
+    token: getAuthorizationTokenSelector(state),
+    totalCount: getPlaylistsTotalCountSelector(state)
   }),
   { getFeaturedPlaylists }
 )
@@ -32,11 +35,13 @@ class Playlists extends PureComponent {
     loading: PropTypes.bool.isRequired,
     loaded: PropTypes.bool.isRequired,
     playlists: PropTypes.arrayOf(PlaylistShape).isRequired,
-    token: PropTypes.string.isRequired
+    token: PropTypes.string.isRequired,
+    totalCount: PropTypes.number
   };
 
   static defaultProps = {
-    className: ''
+    className: '',
+    totalCount: 0
   };
 
   componentDidMount() {
@@ -46,10 +51,12 @@ class Playlists extends PureComponent {
   }
 
   render() {
-    const { className, empty, loading, loaded, playlists } = this.props;
+    const { className, empty, loading, loaded, playlists, totalCount } = this.props;
 
     return (
       <div className={classNames(className, 'Playlists')}>
+        <SectionHeader title="Playlists">{totalCount} results found</SectionHeader>
+
         {loading && <div className="Playlists__items Playlists__items--loading">Loading...</div>}
 
         {loaded && empty && (

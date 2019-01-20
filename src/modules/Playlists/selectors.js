@@ -39,3 +39,8 @@ export const isEmptyPlaylistsSelector = pipe(
   getPlaylistsSelector,
   isEmpty
 );
+
+export const getPlaylistsTotalCountSelector = pipe(
+  getPlaylistsDataSelector,
+  prop('total')
+);
