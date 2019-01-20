@@ -323,7 +323,6 @@ module.exports = function(webpackEnv) {
                 customize: require.resolve('babel-preset-react-app/webpack-overrides'),
 
                 plugins: [
-                  ['@babel/plugin-proposal-decorators', { legacy: true }],
                   [
                     require.resolve('babel-plugin-named-asset-import'),
                     {
