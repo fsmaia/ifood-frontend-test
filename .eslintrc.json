@@ -10,6 +10,7 @@
   "rules": {
     "prettier/prettier": ["error"],
     "jsx-a11y/href-no-hash": [0],
+    "jsx-a11y/label-has-for": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/destructuring-assignment": "off",
     "react/button-has-type": "off"
@@ -38,7 +39,8 @@
         "src/modules/API/*.js",
         "src/modules/**/actions.js",
         "src/modules/**/constants/*.js",
-        "src/modules/**/selectors.js"
+        "src/modules/**/selectors.js",
+        "src/modules/**/shapes.js"
       ],
       "rules": {
         "import/prefer-default-export": "off"
