@@ -5,19 +5,31 @@ import { connect } from 'react-redux';
 import './index.scss';
 import SectionHeader from '../App/components/SectionHeader';
 import { getFilters } from './actions';
+import { getFiltersSelector, hasLoadedFiltersSelector } from './selectors';
+import { FilterShape } from './shapes';
+import { FILTER_TYPES } from './constants';
+import FiltersFieldText from './components/FieldText';
+import FiltersFieldSelect from './components/FieldSelect';
+import FiltersFieldDate from './components/FieldDate';
 
 @connect(
-  null,
+  state => ({
+    filters: getFiltersSelector(state),
+    loaded: hasLoadedFiltersSelector(state)
+  }),
   { getFilters }
 )
 class Filters extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
-    getFilters: PropTypes.func.isRequired
+    filters: PropTypes.arrayOf(FilterShape),
+    getFilters: PropTypes.func.isRequired,
+    loaded: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
-    className: ''
+    className: '',
+    filters: []
   };
 
   componentDidMount() {
@@ -25,16 +37,41 @@ class Filters extends PureComponent {
   }
 
   render() {
-    const { className } = this.props;
+    const { className, filters, loaded } = this.props;
 
     return (
       <div className={classNames(className, 'Filters')}>
         <SectionHeader title="Filters" />
 
-        <label className="Filters__field" htmlFor="name">
-          <span className="Filters__label">Name</span>
-          <input className="Filters__input" type="text" placeholder="Search..." name="name" />
-        </label>
+        {loaded && (
+          <div className="Filters__fields">
+            <FiltersFieldText className="Filters__field" label="name" name="name" />
+
+            {filters.map(({ id, type, values }) => {
+              switch (type) {
+                case FILTER_TYPES.DATE:
+                  return (
+                    <FiltersFieldDate key={id} className="Filters__field" label={id} name={id} />
+                  );
+                case FILTER_TYPES.SELECT:
+                  return (
+                    <FiltersFieldSelect
+                      key={id}
+                      className="Filters__field"
+                      label={id}
+                      name={id}
+                      values={values}
+                    />
+                  );
+                case FILTER_TYPES.TEXT:
+                default:
+                  return (
+                    <FiltersFieldText key={id} className="Filters__field" label={id} name={id} />
+                  );
+              }
+            })}
+          </div>
+        )}
       </div>
     );
   }

@@ -8,17 +8,29 @@
     border-bottom: 1px solid $base-border-color;
   }
 
+  &__fields {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   &__field {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-  }
+    margin-left: $base-spacements-size * 2;
 
-  &__label {
-    margin-left: $base-spacements-size;
-    margin-bottom: $base-spacements-size;
-    font-weight: bold;
-    font-size: 14px;
+    &:first-child {
+      margin-left: 0;
+    }
+
+    @media (max-width: 600px) {
+      width: 100%;
+      margin-top: $base-spacements-size;
+      margin-left: 0;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
   }
 
   &__input {
