@@ -1,0 +1,8 @@
+@import '../../../../../style/abstracts/all';
+
+.PlaylistsItem {
+  text-align: center;
+  &__image {
+    width: 100%;
+  }
+}

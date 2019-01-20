@@ -5,7 +5,7 @@ import {
 } from './constants';
 import * as spotifyAPI from '../API/spotify';
 
-const PLAYLISTS_PER_PAGE = 25;
+const PLAYLISTS_PER_PAGE = 8;
 
 const getFeaturedPlaylistsErrorAction = error => ({ type: GET_FEATURED_PLAYLISTS_ERROR, error });
 const getFeaturedPlaylistsRequestedAction = () => ({ type: GET_FEATURED_PLAYLISTS_REQUESTED });
@@ -27,7 +27,7 @@ export const getFeaturedPlaylists = (token, page = 1, country, locale, timestamp
       (page - 1) * PLAYLISTS_PER_PAGE
     )
     .then(response => {
-      dispatch(getFeaturedPlaylistsSuccessAction(response));
+      dispatch(getFeaturedPlaylistsSuccessAction(response.playlists));
     })
     .catch(error => {
       dispatch(getFeaturedPlaylistsErrorAction(error));
