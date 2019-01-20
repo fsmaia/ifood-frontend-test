@@ -21,5 +21,19 @@
     "Blob": true,
     "navigator": true
   },
-  "parser": "babel-eslint"
+  "parser": "babel-eslint",
+  "overrides": [
+    {
+      "files": ["src/index.js"],
+      "rules": {
+        "no-underscore-dangle": "off"
+      }
+    },
+    {
+      "files": ["src/modules/**/actions.js", "src/modules/**/constants/*.js"],
+      "rules": {
+        "import/prefer-default-export": "off"
+      }
+    }
+  ]
 }
