@@ -6,7 +6,6 @@
   padding: $base-spacements-size $base-spacements-size * 2;
   border: 0;
   border-radius: 500px;
-  font-size: 18px;
   font-weight: bold;
   background: $spotify-green-dark-color;
   color: $spotify-white-color;
@@ -14,11 +13,8 @@
   transition: background 400ms;
 
   &__icon {
+    margin-right: $base-spacements-size;
     height: 32px;
-  }
-
-  &__text {
-    margin-left: $base-spacements-size;
   }
 
   &:hover {

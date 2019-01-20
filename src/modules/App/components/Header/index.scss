@@ -1,0 +1,20 @@
+@import '../../../../../style/abstracts/all';
+
+.AppHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  padding: $base-spacements-size * 4;
+  box-sizing: border-box;
+
+  &__logo {
+    height: 80px;
+  }
+
+  &__logout {
+    margin-left: auto;
+  }
+}
