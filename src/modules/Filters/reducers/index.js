@@ -1,4 +1,4 @@
-import { GET_FILTERS_REQUESTED, GET_FILTERS_SUCCESS, GET_FILTERS_ERROR } from './constants';
+import { GET_FILTERS_REQUESTED, GET_FILTERS_SUCCESS, GET_FILTERS_ERROR } from '../constants';
 
 const initialState = {
   data: [],

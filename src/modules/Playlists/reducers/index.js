@@ -2,7 +2,7 @@ import {
   GET_FEATURED_PLAYLISTS_REQUESTED,
   GET_FEATURED_PLAYLISTS_SUCCESS,
   GET_FEATURED_PLAYLISTS_ERROR
-} from './constants';
+} from '../constants';
 
 const initialState = {
   data: {},

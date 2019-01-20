@@ -1,4 +1,4 @@
-import { SAVE_AUTHORIZATION_ACCESS_TOKEN, CLEAR_AUTHORIZATION_ACCESS_TOKEN } from '../constants';
+import { SAVE_AUTHORIZATION_ACCESS_TOKEN, CLEAR_AUTHORIZATION_ACCESS_TOKEN } from '../../constants';
 
 const initialState = '';
 
