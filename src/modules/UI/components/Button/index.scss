@@ -1,0 +1,27 @@
+@import '../../../../../style/abstracts/all';
+
+.Button {
+  display: inline-flex;
+  align-items: center;
+  padding: $base-spacements-size $base-spacements-size * 2;
+  border: 0;
+  border-radius: 500px;
+  font-size: 18px;
+  font-weight: bold;
+  background: $spotify-green-dark-color;
+  color: $spotify-white-color;
+  cursor: pointer;
+  transition: background 400ms;
+
+  &__icon {
+    height: 32px;
+  }
+
+  &__text {
+    margin-left: $base-spacements-size;
+  }
+
+  &:hover {
+    background: $spotify-green-color;
+  }
+}
