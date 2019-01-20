@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  min-height: calc(100vh - #{$header-height} - #{$base-spacements-size * 18});
+  min-height: calc(100vh - #{$header-height} - #{$base-spacements-size * 4});
 
   &__subtitle {
     width: 600px;
