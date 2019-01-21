@@ -1,4 +1,6 @@
-import { head, isEmpty, map, pipe, prop, propOr } from 'ramda';
+import { contains, head, filter, isEmpty, map, pipe, prop, propOr, toLower } from 'ramda';
+import { createSelector } from 'reselect';
+import { getFiltersNameValueSelector } from '../Filters/selectors';
 
 const basePlaylistsSelector = prop('playlists');
 
@@ -27,12 +29,21 @@ export const getPlaylistsDataSelector = pipe(
   prop('data')
 );
 
-export const getPlaylistsSelector = pipe(
+export const getPlaylistsSelector = createSelector(
   getPlaylistsDataSelector,
-  pipe(
-    propOr([], 'items'),
-    map(convertPlaylist)
-  )
+  getFiltersNameValueSelector,
+  (playlists, nameValue) =>
+    pipe(
+      propOr([], 'items'),
+      map(convertPlaylist),
+      filter(
+        pipe(
+          prop('name'),
+          toLower,
+          contains(toLower(nameValue))
+        )
+      )
+    )(playlists)
 );
 
 export const isEmptyPlaylistsSelector = pipe(
