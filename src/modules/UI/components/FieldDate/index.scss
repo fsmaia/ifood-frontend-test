@@ -1,0 +1,7 @@
+@import '../../../../../style/abstracts/all';
+
+.FieldDate {
+  &__input {
+    @include field-input();
+  }
+}

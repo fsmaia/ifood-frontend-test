@@ -1,0 +1,7 @@
+@import '../../../../../style/abstracts/all';
+
+.FieldText {
+  &__input {
+    @include field-input();
+  }
+}

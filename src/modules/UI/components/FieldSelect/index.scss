@@ -1,0 +1,7 @@
+@import '../../../../../style/abstracts/all';
+
+.FieldSelect {
+  &__input {
+    @include field-input();
+  }
+}

@@ -1,0 +1,12 @@
+@import '../../../../../style/abstracts/all';
+
+.Field {
+  display: inline-block;
+
+  &__label {
+    margin-left: $base-spacements-size;
+    margin-bottom: $base-spacements-size;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+}
