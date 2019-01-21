@@ -15,7 +15,9 @@ const getFeaturedPlaylistsSuccessAction = data => ({
   data
 });
 
-export const getFeaturedPlaylists = (token, page = 1, country, locale, timestamp) => dispatch => {
+export const getFeaturedPlaylists = (token, filters = {}, page = 1) => dispatch => {
+  const { country, locale, timestamp } = filters;
+
   dispatch(getFeaturedPlaylistsRequestedAction());
 
   return spotifyAPI

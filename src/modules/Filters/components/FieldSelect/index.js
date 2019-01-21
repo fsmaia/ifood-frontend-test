@@ -4,10 +4,14 @@ import React from 'react';
 import FiltersField from '../Field';
 import './index.scss';
 
-const FiltersFieldSelect = ({ className, label, name, values, ...props }) => (
-  <FiltersField className={classNames(className, 'FiltersFieldSelect')} label={label} name={name}>
+const FiltersFieldSelect = ({ className, label, name, value: fieldValue, values, ...props }) => (
+  <FiltersField
+    className={classNames(className, 'FiltersFieldSelect')}
+    label={label}
+    name={name}
+    value={fieldValue}
+  >
     <select className="FiltersFieldSelect__input" placeholder="Search..." name={name} {...props}>
-      <option value="">Choose...</option>
       {values.map(({ name: optionName, value }) => (
         <option key={value} value={value}>
           {optionName}
