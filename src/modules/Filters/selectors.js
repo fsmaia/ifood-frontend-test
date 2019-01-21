@@ -1,8 +1,6 @@
 import { filter, isEmpty, map, pipe, prop } from 'ramda';
 import { FILTER_TYPES } from './constants';
 
-const baseFiltersSelector = prop('filters');
-
 const findFilterType = ({ validation, values }) => {
   if (validation && validation.entityType === 'DATE_TIME') {
     return FILTER_TYPES.DATE;
@@ -20,35 +18,47 @@ const addFilterType = item => ({
   type: findFilterType(item)
 });
 
-export const isLoadingFiltersSelector = pipe(
+const baseFiltersSelector = prop('filters');
+
+const baseFiltersFieldsSelector = pipe(
   baseFiltersSelector,
+  prop('fields')
+);
+
+export const isLoadingFiltersFieldsSelector = pipe(
+  baseFiltersFieldsSelector,
   prop('loading')
 );
 
-export const hasLoadedFiltersSelector = pipe(
-  baseFiltersSelector,
+export const hasLoadedFiltersFieldsSelector = pipe(
+  baseFiltersFieldsSelector,
   prop('loaded')
 );
 
-export const getFiltersErrorSelector = pipe(
-  baseFiltersSelector,
+export const getFiltersFieldsErrorSelector = pipe(
+  baseFiltersFieldsSelector,
   prop('error')
 );
 
-export const getFiltersDataSelector = pipe(
-  baseFiltersSelector,
+export const getFiltersFieldsDataSelector = pipe(
+  baseFiltersFieldsSelector,
   prop('data')
 );
 
-export const getFiltersSelector = pipe(
-  getFiltersDataSelector,
+export const getFiltersFieldsSelector = pipe(
+  getFiltersFieldsDataSelector,
   pipe(
     filter(item => item.id !== 'limit' && item.id !== 'offset'),
     map(addFilterType)
   )
 );
 
-export const isEmptyFiltersSelector = pipe(
-  getFiltersDataSelector,
+export const isEmptyFiltersFieldsSelector = pipe(
+  getFiltersFieldsDataSelector,
   isEmpty
+);
+
+export const getFiltersNameValueSelector = pipe(
+  baseFiltersSelector,
+  prop('name')
 );

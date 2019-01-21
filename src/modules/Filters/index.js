@@ -4,8 +4,12 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import './index.scss';
 import SectionHeader from '../App/components/SectionHeader';
-import { getFilters } from './actions';
-import { getFiltersSelector, hasLoadedFiltersSelector } from './selectors';
+import { getFilters, changeFiltersNameValue } from './actions';
+import {
+  getFiltersFieldsSelector,
+  hasLoadedFiltersFieldsSelector,
+  getFiltersNameValueSelector
+} from './selectors';
 import { FilterShape } from './shapes';
 import { FILTER_TYPES } from './constants';
 import FiltersFieldText from './components/FieldText';
@@ -16,19 +20,22 @@ import { getAuthorizationTokenSelector } from '../Authorization/selectors';
 
 @connect(
   state => ({
-    filters: getFiltersSelector(state),
-    loaded: hasLoadedFiltersSelector(state),
+    filters: getFiltersFieldsSelector(state),
+    loaded: hasLoadedFiltersFieldsSelector(state),
+    nameValue: getFiltersNameValueSelector(state),
     token: getAuthorizationTokenSelector(state)
   }),
-  { getFilters, getFeaturedPlaylists }
+  { changeFiltersNameValue, getFilters, getFeaturedPlaylists }
 )
 class Filters extends PureComponent {
   static propTypes = {
+    changeFiltersNameValue: PropTypes.func.isRequired,
     className: PropTypes.string,
     filters: PropTypes.arrayOf(FilterShape),
     getFeaturedPlaylists: PropTypes.func.isRequired,
     getFilters: PropTypes.func.isRequired,
     loaded: PropTypes.bool.isRequired,
+    nameValue: PropTypes.string.isRequired,
     token: PropTypes.string.isRequired
   };
 
@@ -57,10 +64,8 @@ class Filters extends PureComponent {
     }
   }
 
-  handleNameChange = value => {
-    this.setState({
-      value
-    });
+  handleNameChange = event => {
+    this.props.changeFiltersNameValue(event.target.value);
   };
 
   handleFilterChange = id => event => {
@@ -70,7 +75,7 @@ class Filters extends PureComponent {
   };
 
   render() {
-    const { className, filters, loaded } = this.props;
+    const { className, filters, loaded, nameValue } = this.props;
 
     return (
       <div className={classNames(className, 'Filters')}>
@@ -83,6 +88,7 @@ class Filters extends PureComponent {
               label="name"
               name="name"
               onChange={this.handleNameChange}
+              value={nameValue}
             />
 
             {filters.map(({ id, type, values }) => {
