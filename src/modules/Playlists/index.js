@@ -15,25 +15,31 @@ import { PlaylistShape } from './shapes';
 import PlaylistsItem from './components/Item';
 import './index.scss';
 import SectionHeader from '../App/components/SectionHeader';
+import { getFiltersNameValueSelector } from '../Filters/selectors';
+import { changeFiltersNameValue } from '../Filters/actions';
+import FieldText from '../UI/components/FieldText';
 
 @connect(
   state => ({
     empty: isEmptyPlaylistsSelector(state),
     loading: isLoadingPlaylistsSelector(state),
     loaded: hasLoadedPlaylistsSelector(state),
+    nameValue: getFiltersNameValueSelector(state),
     playlists: getPlaylistsSelector(state),
     token: getAuthorizationTokenSelector(state),
     totalCount: getPlaylistsTotalCountSelector(state)
   }),
-  { getFeaturedPlaylists }
+  { changeFiltersNameValue, getFeaturedPlaylists }
 )
 class Playlists extends PureComponent {
   static propTypes = {
+    changeFiltersNameValue: PropTypes.func.isRequired,
     className: PropTypes.string,
     getFeaturedPlaylists: PropTypes.func.isRequired,
     empty: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
     loaded: PropTypes.bool.isRequired,
+    nameValue: PropTypes.string.isRequired,
     playlists: PropTypes.arrayOf(PlaylistShape).isRequired,
     token: PropTypes.string.isRequired,
     totalCount: PropTypes.number
@@ -50,14 +56,31 @@ class Playlists extends PureComponent {
     this.props.getFeaturedPlaylists(token);
   }
 
+  handleNameChange = event => {
+    this.props.changeFiltersNameValue(event.target.value);
+  };
+
   render() {
-    const { className, empty, loading, loaded, playlists, totalCount } = this.props;
+    const { className, empty, loading, loaded, nameValue, playlists, totalCount } = this.props;
 
     return (
       <div className={classNames(className, 'Playlists')}>
         <SectionHeader title="Playlists">{totalCount} results found</SectionHeader>
 
         {loading && <div className="Playlists__items Playlists__items--loading">Loading...</div>}
+
+        {loaded && (
+          <FieldText
+            className={classNames(
+              'Playlists__filter',
+              nameValue === '' && 'Playlists__filter--empty'
+            )}
+            name="name"
+            onChange={this.handleNameChange}
+            value={nameValue}
+            placeholder="Try the local name search for better results..."
+          />
+        )}
 
         {loaded && empty && (
           <div className="Playlists__items Playlists__items--empty">

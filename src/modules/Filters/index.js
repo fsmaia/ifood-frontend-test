@@ -4,38 +4,38 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import './index.scss';
 import SectionHeader from '../App/components/SectionHeader';
-import { getFilters, changeFiltersNameValue } from './actions';
+import { getFilters } from './actions';
 import {
   getFiltersFieldsSelector,
   hasLoadedFiltersFieldsSelector,
-  getFiltersNameValueSelector
+  isLoadingFiltersFieldsSelector
 } from './selectors';
 import { FilterShape } from './shapes';
 import { FILTER_TYPES } from './constants';
-import FiltersFieldText from './components/FieldText';
-import FiltersFieldSelect from './components/FieldSelect';
-import FiltersFieldDate from './components/FieldDate';
 import { getFeaturedPlaylists } from '../Playlists/actions';
 import { getAuthorizationTokenSelector } from '../Authorization/selectors';
+import FieldDate from '../UI/components/FieldDate';
+import FieldSelect from '../UI/components/FieldSelect';
+import FieldText from '../UI/components/FieldText';
+import Button from '../UI/components/Button';
 
 @connect(
   state => ({
     filters: getFiltersFieldsSelector(state),
     loaded: hasLoadedFiltersFieldsSelector(state),
-    nameValue: getFiltersNameValueSelector(state),
+    loading: isLoadingFiltersFieldsSelector(state),
     token: getAuthorizationTokenSelector(state)
   }),
-  { changeFiltersNameValue, getFilters, getFeaturedPlaylists }
+  { getFilters, getFeaturedPlaylists }
 )
 class Filters extends PureComponent {
   static propTypes = {
-    changeFiltersNameValue: PropTypes.func.isRequired,
     className: PropTypes.string,
     filters: PropTypes.arrayOf(FilterShape),
     getFeaturedPlaylists: PropTypes.func.isRequired,
     getFilters: PropTypes.func.isRequired,
     loaded: PropTypes.bool.isRequired,
-    nameValue: PropTypes.string.isRequired,
+    loading: PropTypes.bool.isRequired,
     token: PropTypes.string.isRequired
   };
 
@@ -64,8 +64,8 @@ class Filters extends PureComponent {
     }
   }
 
-  handleNameChange = event => {
-    this.props.changeFiltersNameValue(event.target.value);
+  handleFiltersReloadClick = () => {
+    this.props.getFilters();
   };
 
   handleFilterChange = id => event => {
@@ -75,27 +75,25 @@ class Filters extends PureComponent {
   };
 
   render() {
-    const { className, filters, loaded, nameValue } = this.props;
+    const { className, filters, loaded, loading } = this.props;
 
     return (
       <div className={classNames(className, 'Filters')}>
-        <SectionHeader title="Filters" />
+        <SectionHeader title="Filters">
+          {!loading && (
+            <Button onClick={this.handleFiltersReloadClick} text="Reload filters" secondary />
+          )}
+        </SectionHeader>
+
+        {loading && <div className="Filters__loading">Loading...</div>}
 
         {loaded && (
           <div className="Filters__fields">
-            <FiltersFieldText
-              className="Filters__field"
-              label="name"
-              name="name"
-              onChange={this.handleNameChange}
-              value={nameValue}
-            />
-
             {filters.map(({ id, type, values }) => {
               switch (type) {
                 case FILTER_TYPES.DATE:
                   return (
-                    <FiltersFieldDate
+                    <FieldDate
                       key={id}
                       className="Filters__field"
                       label={id}
@@ -106,7 +104,7 @@ class Filters extends PureComponent {
                   );
                 case FILTER_TYPES.SELECT:
                   return (
-                    <FiltersFieldSelect
+                    <FieldSelect
                       key={id}
                       className="Filters__field"
                       label={id}
@@ -119,7 +117,7 @@ class Filters extends PureComponent {
                 case FILTER_TYPES.TEXT:
                 default:
                   return (
-                    <FiltersFieldText
+                    <FieldText
                       key={id}
                       className="Filters__field"
                       label={id}

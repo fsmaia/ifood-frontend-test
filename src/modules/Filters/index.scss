@@ -8,6 +8,10 @@
     border-bottom: 1px solid $base-border-color;
   }
 
+  &__loading {
+    font-size: 16px;
+  }
+
   &__fields {
     display: flex;
     flex-wrap: wrap;

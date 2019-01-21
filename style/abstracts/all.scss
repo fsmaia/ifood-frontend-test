@@ -4,7 +4,10 @@
 $header-height: 80px + $base-spacements-size * 4;
 
 @mixin field-input() {
+  width: 100%;
   padding: $base-spacements-size;
   border: 0;
   border-radius: $base-spacements-size;
+  box-sizing: border-box;
+  outline: none;
 }
