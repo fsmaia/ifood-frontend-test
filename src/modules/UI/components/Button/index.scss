@@ -20,4 +20,13 @@
   &:hover {
     background: $spotify-green-color;
   }
+
+  &--secondary {
+    background: $spotify-white-color;
+    color: $spotify-green-color;
+
+    &:hover {
+      background: darken($spotify-white-color, 10%);
+    }
+  }
 }
