@@ -18,9 +18,10 @@ export const getFeaturedPlaylistsErrorAction = error => ({
 export const getFeaturedPlaylistsRequestedAction = () => ({
   type: GET_FEATURED_PLAYLISTS_REQUESTED
 });
-export const getFeaturedPlaylistsSuccessAction = data => ({
+export const getFeaturedPlaylistsSuccessAction = (data, page) => ({
   type: GET_FEATURED_PLAYLISTS_SUCCESS,
-  data
+  data,
+  page
 });
 export const resetFeaturedPlaylistsAction = () => ({ type: RESET_FEATURED_PLAYLISTS });
 
@@ -30,18 +31,18 @@ export const changePlaylistsFilter = value => dispatch =>
 export const getFeaturedPlaylists = (token, filters = {}, page = 1) => dispatch => {
   const { country, locale, timestamp } = filters;
 
-  dispatch(getFeaturedPlaylistsRequestedAction());
+  dispatch(getFeaturedPlaylistsRequestedAction(page));
 
   return spotifyAPI
     .getSpotifyFeaturedPlaylists(
       token,
-      country,
-      locale,
+      country || undefined,
+      locale || undefined,
       timestamp ? timestamp.toISOString() : undefined,
       PLAYLISTS_PER_PAGE,
       (page - 1) * PLAYLISTS_PER_PAGE
     )
-    .then(response => dispatch(getFeaturedPlaylistsSuccessAction(response.playlists)))
+    .then(response => dispatch(getFeaturedPlaylistsSuccessAction(response.playlists, page)))
     .catch(error => {
       dispatch(getFeaturedPlaylistsErrorAction(error));
 

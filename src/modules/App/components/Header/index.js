@@ -23,11 +23,13 @@ const enhance = compose(
 
 const AppHeader = ({ authorized, className, onLogoutClick }) => (
   <header className={classNames(className, 'AppHeader')}>
-    <img src={logo} className="AppHeader__logo" alt="logo" />
+    <div className="AppHeader__container">
+      <img src={logo} className="AppHeader__logo" alt="logo" />
 
-    {authorized && (
-      <Button type="button" className="AppHeader__logout" text="Logout" onClick={onLogoutClick} />
-    )}
+      {authorized && (
+        <Button type="button" className="AppHeader__logout" text="Logout" onClick={onLogoutClick} />
+      )}
+    </div>
   </header>
 );
 

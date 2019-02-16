@@ -11,3 +11,10 @@ $header-height: 80px + $base-spacements-size * 4;
   box-sizing: border-box;
   outline: none;
 }
+
+@mixin lock-container() {
+  width: 1200px;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}

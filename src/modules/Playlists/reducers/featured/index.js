@@ -29,7 +29,7 @@ export default (state = initialState, action) => {
         ...initialState,
         data: {
           ...action.data,
-          items: [...state.data.items, ...action.data.items]
+          items: action.page === 1 ? action.data.items : [...state.data.items, ...action.data.items]
         },
         loaded: true
       };

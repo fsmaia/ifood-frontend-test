@@ -8,6 +8,8 @@ $body-padding-y: $base-spacements-size * 2;
   color: $spotify-white-color;
 
   &__body {
+    @include lock-container();
+    box-sizing: border-box;
     padding: $header-height + $body-padding-y $base-spacements-size * 4 $body-padding-y;
   }
 }

@@ -2,15 +2,20 @@
 
 .AppHeader {
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: fixed;
   top: 0;
-  padding: $base-spacements-size * 2 $base-spacements-size * 4;
-  box-sizing: border-box;
   background: $spotify-black-color;
   border-bottom: 2px solid lighten($spotify-black-color, 5%);
+  z-index: 5;
+
+  &__container {
+    @include lock-container();
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $base-spacements-size * 2 $base-spacements-size * 4;
+    box-sizing: border-box;
+  }
 
   &__logo {
     height: 80px;

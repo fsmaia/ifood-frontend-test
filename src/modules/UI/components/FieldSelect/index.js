@@ -13,6 +13,7 @@ const FieldSelect = ({ className, label, name, value: fieldValue, options, ...pr
     value={fieldValue}
   >
     <select className="FieldSelect__input" placeholder="Search..." name={name} {...props}>
+      <option value="">Choose...</option>
       {options.map(({ name: optionName, value }) => (
         <option key={value} value={value}>
           {optionName}

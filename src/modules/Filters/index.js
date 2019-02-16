@@ -51,7 +51,9 @@ class Filters extends PureComponent {
   };
 
   componentDidMount() {
-    this.props.getFilters();
+    const { token } = this.props;
+
+    this.props.getFilters(token);
   }
 
   componentDidUpdate(prevProps) {
@@ -63,7 +65,9 @@ class Filters extends PureComponent {
   }
 
   handleFiltersReloadClick = () => {
-    this.props.getFilters();
+    const { token } = this.props;
+
+    this.props.getFilters(token);
   };
 
   handleFilterChange = field => event => {

@@ -60,12 +60,19 @@ class Playlists extends PureComponent {
     totalCount: 0
   };
 
+  componentDidMount() {
+    const { token, values } = this.props;
+
+    this.props.getFeaturedPlaylists(token, values);
+  }
+
   handleFilterChange = event => {
     this.props.changePlaylistsFilter(event.target.value);
   };
 
   loadMore = page => {
     const { token, values } = this.props;
+
     this.props.getFeaturedPlaylists(token, values, page);
   };
 
