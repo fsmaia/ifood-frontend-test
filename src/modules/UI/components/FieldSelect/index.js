@@ -5,7 +5,7 @@ import Field from '../Field';
 import './index.scss';
 import { FilterOptionShape } from '../../../Filters/shapes';
 
-const FieldSelect = ({ className, label, name, value: fieldValue, values, ...props }) => (
+const FieldSelect = ({ className, label, name, value: fieldValue, options, ...props }) => (
   <Field
     className={classNames(className, 'FieldSelect')}
     label={label}
@@ -13,7 +13,7 @@ const FieldSelect = ({ className, label, name, value: fieldValue, values, ...pro
     value={fieldValue}
   >
     <select className="FieldSelect__input" placeholder="Search..." name={name} {...props}>
-      {values.map(({ name: optionName, value }) => (
+      {options.map(({ name: optionName, value }) => (
         <option key={value} value={value}>
           {optionName}
         </option>
@@ -26,14 +26,14 @@ FieldSelect.propTypes = {
   className: PropTypes.string,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  value: PropTypes.string,
-  values: PropTypes.arrayOf(FilterOptionShape)
+  options: PropTypes.arrayOf(FilterOptionShape),
+  value: PropTypes.string
 };
 
 FieldSelect.defaultProps = {
   className: '',
-  value: undefined,
-  values: []
+  options: [],
+  value: undefined
 };
 
 export default FieldSelect;
