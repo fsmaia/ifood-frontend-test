@@ -1,7 +1,7 @@
 @import 'colors';
 @import 'spacements';
 
-$header-height: 80px + $base-spacements-size * 4;
+$header-height: 40px + $base-spacements-size * 2;
 
 @mixin field-input() {
   width: 100%;

@@ -4,8 +4,6 @@
   min-height: calc(100vh - #{$header-height} - #{$base-spacements-size * 4});
 
   &__section {
-    &--playlists {
-      margin-top: $base-spacements-size * 2;
-    }
+    margin-top: $base-spacements-size * 2;
   }
 }
