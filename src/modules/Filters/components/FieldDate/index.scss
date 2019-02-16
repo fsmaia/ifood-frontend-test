@@ -1,7 +1,0 @@
-@import '../../../../../style/abstracts/all';
-
-.FiltersFieldDate {
-  &__input {
-    @include field-input();
-  }
-}

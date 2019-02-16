@@ -1,7 +1,0 @@
-@import '../../../../../style/abstracts/all';
-
-.FiltersFieldSelect {
-  &__input {
-    @include field-input();
-  }
-}
