@@ -30,6 +30,11 @@
     margin-left: auto;
   }
 
+  &__message {
+    display: block;
+    font-size: 16px;
+  }
+
   &__items {
     display: grid;
     box-sizing: border-box;
@@ -37,10 +42,6 @@
     align-items: center;
     grid-row-gap: $base-spacements-size * 2;
     grid-column-gap: $base-spacements-size * 2;
-
-    &--empty {
-      display: block;
-      font-size: 18px;
-    }
+    min-height: 620px;
   }
 }

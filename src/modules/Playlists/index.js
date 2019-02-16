@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import InfiniteScroll from 'react-infinite-scroller';
 import { getFeaturedPlaylists, changePlaylistsFilter } from './actions';
 import { getAuthorizationTokenSelector } from '../Authorization/selectors';
 import {
@@ -20,19 +21,20 @@ import './index.scss';
 import SectionHeader from '../App/components/SectionHeader';
 import FieldText from '../UI/components/FieldText';
 import { getFiltersValuesSelector } from '../Filters/selectors';
+import { FilterValuesShape } from '../Filters/shapes';
 
 @connect(
   state => ({
     count: getPlaylistsCountSelector(state),
     empty: isEmptyPlaylistsSelector(state),
     filter: getPlaylistsFilterSelector(state),
-    filters: getFiltersValuesSelector(state),
     hasError: hasErrorFeaturedPlaylistsSelector(state),
     loading: isLoadingFeaturedPlaylistsSelector(state),
     loaded: hasLoadedFeaturedPlaylistsSelector(state),
     playlists: getFilteredPlaylistsSelector(state),
     token: getAuthorizationTokenSelector(state),
-    totalCount: getPlaylistsTotalCountSelector(state)
+    totalCount: getPlaylistsTotalCountSelector(state),
+    values: getFiltersValuesSelector(state)
   }),
   { changePlaylistsFilter, getFeaturedPlaylists }
 )
@@ -40,13 +42,17 @@ class Playlists extends PureComponent {
   static propTypes = {
     changePlaylistsFilter: PropTypes.func.isRequired,
     className: PropTypes.string,
+    count: PropTypes.number.isRequired,
     empty: PropTypes.bool.isRequired,
     filter: PropTypes.string.isRequired,
+    getFeaturedPlaylists: PropTypes.func.isRequired,
     hasError: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
     loaded: PropTypes.bool.isRequired,
     playlists: PropTypes.arrayOf(PlaylistShape).isRequired,
-    totalCount: PropTypes.number
+    token: PropTypes.string.isRequired,
+    totalCount: PropTypes.number,
+    values: FilterValuesShape.isRequired
   };
 
   static defaultProps = {
@@ -58,9 +64,15 @@ class Playlists extends PureComponent {
     this.props.changePlaylistsFilter(event.target.value);
   };
 
+  loadMore = page => {
+    const { token, values } = this.props;
+    this.props.getFeaturedPlaylists(token, values, page);
+  };
+
   render() {
     const {
       className,
+      count,
       empty,
       filter,
       hasError,
@@ -98,11 +110,24 @@ class Playlists extends PureComponent {
           </div>
         )}
 
-        <div className="Playlists__items">
-          {playlists.map(({ id, image, name }) => (
-            <PlaylistsItem key={id} className="Playlists__item" image={image} name={name} />
-          ))}
-        </div>
+        {!empty && (
+          <InfiniteScroll
+            pageStart={1}
+            initialLoad={false}
+            className="Playlists__items"
+            hasMore={totalCount > count}
+            loadMore={this.loadMore}
+            loader={
+              <div className="Playlists__message Playlists__message--loading" key="loading">
+                Loading...
+              </div>
+            }
+          >
+            {playlists.map(({ id, image, name }) => (
+              <PlaylistsItem key={id} className="Playlists__item" image={image} name={name} />
+            ))}
+          </InfiniteScroll>
+        )}
       </div>
     );
   }
