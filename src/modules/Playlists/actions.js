@@ -1,19 +1,31 @@
 import {
+  CHANGE_PLAYLISTS_FILTER,
   GET_FEATURED_PLAYLISTS_ERROR,
   GET_FEATURED_PLAYLISTS_REQUESTED,
-  GET_FEATURED_PLAYLISTS_SUCCESS
+  GET_FEATURED_PLAYLISTS_SUCCESS,
+  RESET_FEATURED_PLAYLISTS
 } from './constants';
 import * as spotifyAPI from '../API/spotify';
 import { clearAuthorizationAccessToken } from '../Authorization/actions';
 
 const PLAYLISTS_PER_PAGE = 8;
 
-const getFeaturedPlaylistsErrorAction = error => ({ type: GET_FEATURED_PLAYLISTS_ERROR, error });
-const getFeaturedPlaylistsRequestedAction = () => ({ type: GET_FEATURED_PLAYLISTS_REQUESTED });
-const getFeaturedPlaylistsSuccessAction = data => ({
+export const changePlaylistsFilterAction = value => ({ type: CHANGE_PLAYLISTS_FILTER, value });
+export const getFeaturedPlaylistsErrorAction = error => ({
+  type: GET_FEATURED_PLAYLISTS_ERROR,
+  error
+});
+export const getFeaturedPlaylistsRequestedAction = () => ({
+  type: GET_FEATURED_PLAYLISTS_REQUESTED
+});
+export const getFeaturedPlaylistsSuccessAction = data => ({
   type: GET_FEATURED_PLAYLISTS_SUCCESS,
   data
 });
+export const resetFeaturedPlaylistsAction = () => ({ type: RESET_FEATURED_PLAYLISTS });
+
+export const changePlaylistsFilter = value => dispatch =>
+  dispatch(changePlaylistsFilterAction(value));
 
 export const getFeaturedPlaylists = (token, filters = {}, page = 1) => dispatch => {
   const { country, locale, timestamp } = filters;
@@ -29,9 +41,7 @@ export const getFeaturedPlaylists = (token, filters = {}, page = 1) => dispatch 
       PLAYLISTS_PER_PAGE,
       (page - 1) * PLAYLISTS_PER_PAGE
     )
-    .then(response => {
-      dispatch(getFeaturedPlaylistsSuccessAction(response.playlists));
-    })
+    .then(response => dispatch(getFeaturedPlaylistsSuccessAction(response.playlists)))
     .catch(error => {
       dispatch(getFeaturedPlaylistsErrorAction(error));
 
@@ -40,3 +50,5 @@ export const getFeaturedPlaylists = (token, filters = {}, page = 1) => dispatch 
       }
     });
 };
+
+export const resetFeaturedPlaylists = () => dispatch => dispatch(resetFeaturedPlaylistsAction());

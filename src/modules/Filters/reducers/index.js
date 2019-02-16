@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import fields from './fields';
-import name from './name';
+import values from './values';
 
 export default combineReducers({
   fields,
-  name
+  values
 });

@@ -1,10 +1,10 @@
-import { CHANGE_FILTERS_NAME_VALUE } from '../../constants';
+import { CHANGE_PLAYLISTS_FILTER } from '../../constants';
 
 const initialState = '';
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case CHANGE_FILTERS_NAME_VALUE:
+    case CHANGE_PLAYLISTS_FILTER:
       return action.value;
     default:
       return state;

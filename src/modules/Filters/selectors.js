@@ -1,16 +1,16 @@
 import { filter, isEmpty, map, pipe, prop } from 'ramda';
-import { FILTER_TYPES } from './constants';
+import { FILTER_FIELD_TYPES } from './constants';
 
 const findFilterType = ({ validation, values }) => {
   if (validation && validation.entityType === 'DATE_TIME') {
-    return FILTER_TYPES.DATE;
+    return FILTER_FIELD_TYPES.DATE;
   }
 
   if (values) {
-    return FILTER_TYPES.SELECT;
+    return FILTER_FIELD_TYPES.SELECT;
   }
 
-  return FILTER_TYPES.TEXT;
+  return FILTER_FIELD_TYPES.TEXT;
 };
 
 const addFilterType = item => ({
@@ -58,7 +58,7 @@ export const isEmptyFiltersFieldsSelector = pipe(
   isEmpty
 );
 
-export const getFiltersNameValueSelector = pipe(
+export const getFiltersValuesSelector = pipe(
   baseFiltersSelector,
-  prop('name')
+  prop('values')
 );

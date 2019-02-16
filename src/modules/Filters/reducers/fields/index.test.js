@@ -6,9 +6,13 @@ import {
   getFiltersFieldsDataSelector,
   getFiltersFieldsErrorSelector
 } from '../../selectors';
-import { GET_FILTERS_REQUESTED, GET_FILTERS_SUCCESS, GET_FILTERS_ERROR } from '../../constants';
+import {
+  getFiltersRequestedAction,
+  getFiltersSuccessAction,
+  getFiltersErrorAction
+} from '../../actions';
 
-describe('reducers/filters', () => {
+describe('reducers/filters/fields', () => {
   describe('Initial state', () => {
     const initialState = rootReducer(undefined, {});
 
@@ -30,7 +34,7 @@ describe('reducers/filters', () => {
   });
 
   describe('GET_FILTERS_REQUESTED', () => {
-    const state = rootReducer({}, { type: GET_FILTERS_REQUESTED });
+    const state = rootReducer({}, getFiltersRequestedAction());
 
     it('is loading', () => {
       expect(isLoadingFiltersFieldsSelector(state)).toBeTruthy();
@@ -51,7 +55,7 @@ describe('reducers/filters', () => {
 
   describe('GET_FILTERS_SUCCESS', () => {
     const data = ['1'];
-    const state = rootReducer({}, { type: GET_FILTERS_SUCCESS, data });
+    const state = rootReducer({}, getFiltersSuccessAction(data));
 
     it('is not loading', () => {
       expect(isLoadingFiltersFieldsSelector(state)).toBeFalsy();
@@ -72,7 +76,7 @@ describe('reducers/filters', () => {
 
   describe('GET_FILTERS_ERROR', () => {
     const error = new Error('error');
-    const state = rootReducer({}, { type: GET_FILTERS_ERROR, error });
+    const state = rootReducer({}, getFiltersErrorAction(error));
 
     it('is not loading', () => {
       expect(isLoadingFiltersFieldsSelector(state)).toBeFalsy();

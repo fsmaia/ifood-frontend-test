@@ -12,9 +12,11 @@ export const FilterValidationShape = PropTypes.shape({
   entityType: PropTypes.string
 });
 
-export const FilterShape = PropTypes.shape({
+export const FilterFieldShape = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   values: PropTypes.arrayOf(FilterOptionShape),
   validation: FilterValidationShape
 });
+
+export const FilterValuesShape = PropTypes.objectOf(PropTypes.string);

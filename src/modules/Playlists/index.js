@@ -2,46 +2,50 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { getFeaturedPlaylists } from './actions';
+import { getFeaturedPlaylists, changePlaylistsFilter } from './actions';
 import { getAuthorizationTokenSelector } from '../Authorization/selectors';
 import {
-  getPlaylistsSelector,
+  getFilteredPlaylistsSelector,
   isEmptyPlaylistsSelector,
-  hasLoadedPlaylistsSelector,
-  isLoadingPlaylistsSelector,
-  getPlaylistsTotalCountSelector
+  hasLoadedFeaturedPlaylistsSelector,
+  isLoadingFeaturedPlaylistsSelector,
+  getPlaylistsTotalCountSelector,
+  getPlaylistsCountSelector,
+  getPlaylistsFilterSelector,
+  hasErrorFeaturedPlaylistsSelector
 } from './selectors';
 import { PlaylistShape } from './shapes';
 import PlaylistsItem from './components/Item';
 import './index.scss';
 import SectionHeader from '../App/components/SectionHeader';
-import { getFiltersNameValueSelector } from '../Filters/selectors';
-import { changeFiltersNameValue } from '../Filters/actions';
 import FieldText from '../UI/components/FieldText';
+import { getFiltersValuesSelector } from '../Filters/selectors';
 
 @connect(
   state => ({
+    count: getPlaylistsCountSelector(state),
     empty: isEmptyPlaylistsSelector(state),
-    loading: isLoadingPlaylistsSelector(state),
-    loaded: hasLoadedPlaylistsSelector(state),
-    nameValue: getFiltersNameValueSelector(state),
-    playlists: getPlaylistsSelector(state),
+    filter: getPlaylistsFilterSelector(state),
+    filters: getFiltersValuesSelector(state),
+    hasError: hasErrorFeaturedPlaylistsSelector(state),
+    loading: isLoadingFeaturedPlaylistsSelector(state),
+    loaded: hasLoadedFeaturedPlaylistsSelector(state),
+    playlists: getFilteredPlaylistsSelector(state),
     token: getAuthorizationTokenSelector(state),
     totalCount: getPlaylistsTotalCountSelector(state)
   }),
-  { changeFiltersNameValue, getFeaturedPlaylists }
+  { changePlaylistsFilter, getFeaturedPlaylists }
 )
 class Playlists extends PureComponent {
   static propTypes = {
-    changeFiltersNameValue: PropTypes.func.isRequired,
+    changePlaylistsFilter: PropTypes.func.isRequired,
     className: PropTypes.string,
-    getFeaturedPlaylists: PropTypes.func.isRequired,
     empty: PropTypes.bool.isRequired,
+    filter: PropTypes.string.isRequired,
+    hasError: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
     loaded: PropTypes.bool.isRequired,
-    nameValue: PropTypes.string.isRequired,
     playlists: PropTypes.arrayOf(PlaylistShape).isRequired,
-    token: PropTypes.string.isRequired,
     totalCount: PropTypes.number
   };
 
@@ -50,51 +54,55 @@ class Playlists extends PureComponent {
     totalCount: 0
   };
 
-  componentDidMount() {
-    const { token } = this.props;
-
-    this.props.getFeaturedPlaylists(token);
-  }
-
-  handleNameChange = event => {
-    this.props.changeFiltersNameValue(event.target.value);
+  handleFilterChange = event => {
+    this.props.changePlaylistsFilter(event.target.value);
   };
 
   render() {
-    const { className, empty, loading, loaded, nameValue, playlists, totalCount } = this.props;
+    const {
+      className,
+      empty,
+      filter,
+      hasError,
+      loading,
+      loaded,
+      playlists,
+      totalCount
+    } = this.props;
 
     return (
       <div className={classNames(className, 'Playlists')}>
         <SectionHeader title="Playlists">{totalCount} results found</SectionHeader>
 
-        {loading && <div className="Playlists__items Playlists__items--loading">Loading...</div>}
+        <FieldText
+          className={classNames('Playlists__filter', filter === '' && 'Playlists__filter--empty')}
+          name="filter"
+          onChange={this.handleFilterChange}
+          value={filter}
+          placeholder="Try the local name search for better results..."
+        />
 
-        {loaded && (
-          <FieldText
-            className={classNames(
-              'Playlists__filter',
-              nameValue === '' && 'Playlists__filter--empty'
-            )}
-            name="name"
-            onChange={this.handleNameChange}
-            value={nameValue}
-            placeholder="Try the local name search for better results..."
-          />
+        {empty && loading && (
+          <div className="Playlists__message Playlists__message--loading">Loading...</div>
         )}
 
-        {loaded && empty && (
-          <div className="Playlists__items Playlists__items--empty">
+        {empty && loaded && (
+          <div className="Playlists__message Playlists__message--empty">
             Your search returned no results. Try to change filters.
           </div>
         )}
 
-        {loaded && !empty && (
-          <div className="Playlists__items">
-            {playlists.map(({ id, image, name }) => (
-              <PlaylistsItem key={id} className="Playlists__item" image={image} name={name} />
-            ))}
+        {empty && hasError && (
+          <div className="Playlists__message Playlists__message--error">
+            Your search returned no results due to a server error. Try again in a few minutes.
           </div>
         )}
+
+        <div className="Playlists__items">
+          {playlists.map(({ id, image, name }) => (
+            <PlaylistsItem key={id} className="Playlists__item" image={image} name={name} />
+          ))}
+        </div>
       </div>
     );
   }

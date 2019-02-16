@@ -1,57 +1,95 @@
-import { contains, head, filter, isEmpty, map, pipe, prop, propOr, toLower } from 'ramda';
+import {
+  contains,
+  head,
+  filter,
+  isEmpty,
+  isNil,
+  length,
+  map,
+  not,
+  pipe,
+  prop,
+  propOr,
+  toLower
+} from 'ramda';
 import { createSelector } from 'reselect';
-import { getFiltersNameValueSelector } from '../Filters/selectors';
 
 const basePlaylistsSelector = prop('playlists');
+
+export const getPlaylistsFilterSelector = pipe(
+  basePlaylistsSelector,
+  prop('filter')
+);
+
+const featuredPlaylistsSelector = pipe(
+  basePlaylistsSelector,
+  prop('featured')
+);
 
 const convertPlaylist = playlist => ({
   ...playlist,
   image: prop('url', head(playlist.images))
 });
 
-export const isLoadingPlaylistsSelector = pipe(
-  basePlaylistsSelector,
+export const isLoadingFeaturedPlaylistsSelector = pipe(
+  featuredPlaylistsSelector,
   prop('loading')
 );
 
-export const hasLoadedPlaylistsSelector = pipe(
-  basePlaylistsSelector,
+export const hasLoadedFeaturedPlaylistsSelector = pipe(
+  featuredPlaylistsSelector,
   prop('loaded')
 );
 
-export const getPlaylistsErrorSelector = pipe(
-  basePlaylistsSelector,
+export const hasErrorFeaturedPlaylistsSelector = pipe(
+  featuredPlaylistsSelector,
+  prop('error'),
+  isNil,
+  not
+);
+
+export const getFeaturedPlaylistsErrorSelector = pipe(
+  featuredPlaylistsSelector,
   prop('error')
 );
 
-export const getPlaylistsDataSelector = pipe(
-  basePlaylistsSelector,
+export const getFeaturedPlaylistsDataSelector = pipe(
+  featuredPlaylistsSelector,
   prop('data')
 );
 
-export const getPlaylistsSelector = createSelector(
-  getPlaylistsDataSelector,
-  getFiltersNameValueSelector,
-  (playlists, nameValue) =>
+export const getFeaturedPlaylistsSelector = pipe(
+  getFeaturedPlaylistsDataSelector,
+  propOr([], 'items')
+);
+
+export const getFilteredPlaylistsSelector = createSelector(
+  getFeaturedPlaylistsSelector,
+  getPlaylistsFilterSelector,
+  (playlists, filterValue) =>
     pipe(
-      propOr([], 'items'),
       map(convertPlaylist),
       filter(
         pipe(
           prop('name'),
           toLower,
-          contains(toLower(nameValue))
+          contains(toLower(filterValue))
         )
       )
     )(playlists)
 );
 
 export const isEmptyPlaylistsSelector = pipe(
-  getPlaylistsSelector,
+  getFilteredPlaylistsSelector,
   isEmpty
 );
 
+export const getPlaylistsCountSelector = pipe(
+  getFeaturedPlaylistsSelector,
+  length
+);
+
 export const getPlaylistsTotalCountSelector = pipe(
-  getPlaylistsDataSelector,
+  getFeaturedPlaylistsDataSelector,
   prop('total')
 );

@@ -3,16 +3,23 @@ import {
   GET_FILTERS_ERROR,
   GET_FILTERS_REQUESTED,
   GET_FILTERS_SUCCESS,
-  CHANGE_FILTERS_NAME_VALUE
+  CHANGE_FILTER_VALUE
 } from './constants';
 
-const changeFiltersNameValueAction = value => ({ type: CHANGE_FILTERS_NAME_VALUE, value });
-const getFiltersErrorAction = error => ({ type: GET_FILTERS_ERROR, error });
-const getFiltersRequestedAction = () => ({ type: GET_FILTERS_REQUESTED });
-const getFiltersSuccessAction = data => ({
+export const changeFilterValueAction = (filter, value) => ({
+  type: CHANGE_FILTER_VALUE,
+  filter,
+  value
+});
+export const getFiltersErrorAction = error => ({ type: GET_FILTERS_ERROR, error });
+export const getFiltersRequestedAction = () => ({ type: GET_FILTERS_REQUESTED });
+export const getFiltersSuccessAction = data => ({
   type: GET_FILTERS_SUCCESS,
   data
 });
+
+export const changeFilterValue = (filter, value) => dispatch =>
+  dispatch(changeFilterValueAction(filter, value));
 
 export const getFilters = () => dispatch => {
   dispatch(getFiltersRequestedAction());
@@ -26,6 +33,3 @@ export const getFilters = () => dispatch => {
       dispatch(getFiltersErrorAction(error));
     });
 };
-
-export const changeFiltersNameValue = value => dispatch =>
-  dispatch(changeFiltersNameValueAction(value));
