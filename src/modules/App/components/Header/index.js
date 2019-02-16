@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
-import logo from './logo.svg';
 import './index.scss';
 import { isAuthorizedSelector } from '../../../Authorization/selectors';
 import { clearAuthorizationAccessToken } from '../../../Authorization/actions';
@@ -24,7 +23,7 @@ const enhance = compose(
 const AppHeader = ({ authorized, className, onLogoutClick }) => (
   <header className={classNames(className, 'AppHeader')}>
     <div className="AppHeader__container">
-      <img src={logo} className="AppHeader__logo" alt="logo" />
+      <img src="/spotify-inverted.png" className="AppHeader__logo" alt="logo" />
 
       {authorized && (
         <Button type="button" className="AppHeader__logout" text="Logout" onClick={onLogoutClick} />
