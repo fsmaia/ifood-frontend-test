@@ -4,4 +4,21 @@
   &__input {
     @include field-input();
   }
+
+  .rdt {
+    font-size: 16px;
+    color: $spotify-black-color;
+  }
+
+  .rdtPicker {
+    border-radius: $base-spacements-size;
+    border-top-left-radius: 0;
+  }
+
+  .rdtOpen & {
+    &__input {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
 }

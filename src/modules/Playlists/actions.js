@@ -37,7 +37,7 @@ export const getFeaturedPlaylists = (token, filters = {}, page = 1) => dispatch 
       token,
       country,
       locale,
-      timestamp,
+      timestamp ? timestamp.toISOString() : undefined,
       PLAYLISTS_PER_PAGE,
       (page - 1) * PLAYLISTS_PER_PAGE
     )

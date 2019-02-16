@@ -1,16 +1,17 @@
+import 'react-datetime/css/react-datetime.css';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import DateTime from 'react-datetime';
 import Field from '../Field';
 import './index.scss';
 
 const FieldDate = ({ className, label, name, ...props }) => (
   <Field className={classNames(className, 'FieldDate')} label={label} name={name}>
-    <input
-      className="FieldDate__input"
-      type="text"
-      placeholder="Search..."
-      name={name}
+    <DateTime
+      className="FieldDate__picker"
+      placeholder="Choose a day..."
+      inputProps={{ className: 'FieldDate__input', name }}
       {...props}
     />
   </Field>
