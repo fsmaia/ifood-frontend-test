@@ -46,7 +46,7 @@ class Playlists extends PureComponent {
     filter: PropTypes.string.isRequired,
     getFeaturedPlaylists: PropTypes.func.isRequired,
     hasError: PropTypes.bool.isRequired,
-    hasMore: PropTypes.number.isRequired,
+    hasMore: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
     loaded: PropTypes.bool.isRequired,
     playlists: PropTypes.arrayOf(PlaylistShape).isRequired,
