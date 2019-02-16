@@ -4,7 +4,6 @@ import {
   hasLoadedFeaturedPlaylistsSelector,
   getFilteredPlaylistsSelector,
   getFeaturedPlaylistsDataSelector,
-  hashasErrorFeaturedPlaylistsSelector,
   hasErrorFeaturedPlaylistsSelector
 } from '../../selectors';
 import {
