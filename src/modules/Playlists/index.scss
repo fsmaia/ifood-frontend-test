@@ -40,7 +40,6 @@
     display: grid;
     box-sizing: border-box;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    align-items: center;
     grid-row-gap: $base-spacements-size * 2;
     grid-column-gap: $base-spacements-size * 2;
     min-height: 620px;

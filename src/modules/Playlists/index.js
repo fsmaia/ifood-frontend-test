@@ -7,13 +7,13 @@ import { getFeaturedPlaylists, changePlaylistsFilter } from './actions';
 import { getAuthorizationTokenSelector } from '../Authorization/selectors';
 import {
   getFilteredPlaylistsSelector,
-  isEmptyPlaylistsSelector,
+  isEmptyFeaturedPlaylistsSelector,
   hasLoadedFeaturedPlaylistsSelector,
   isLoadingFeaturedPlaylistsSelector,
-  getPlaylistsTotalCountSelector,
-  getPlaylistsCountSelector,
+  getFeaturedPlaylistsTotalCountSelector,
   getPlaylistsFilterSelector,
-  hasErrorFeaturedPlaylistsSelector
+  hasErrorFeaturedPlaylistsSelector,
+  hasMoreFeaturedPlaylistsSelector
 } from './selectors';
 import { PlaylistShape } from './shapes';
 import PlaylistsItem from './components/Item';
@@ -25,15 +25,15 @@ import { FilterValuesShape } from '../Filters/shapes';
 
 @connect(
   state => ({
-    count: getPlaylistsCountSelector(state),
-    empty: isEmptyPlaylistsSelector(state),
+    empty: isEmptyFeaturedPlaylistsSelector(state),
     filter: getPlaylistsFilterSelector(state),
     hasError: hasErrorFeaturedPlaylistsSelector(state),
+    hasMore: hasMoreFeaturedPlaylistsSelector(state),
     loading: isLoadingFeaturedPlaylistsSelector(state),
     loaded: hasLoadedFeaturedPlaylistsSelector(state),
     playlists: getFilteredPlaylistsSelector(state),
     token: getAuthorizationTokenSelector(state),
-    totalCount: getPlaylistsTotalCountSelector(state),
+    totalCount: getFeaturedPlaylistsTotalCountSelector(state),
     values: getFiltersValuesSelector(state)
   }),
   { changePlaylistsFilter, getFeaturedPlaylists }
@@ -42,11 +42,11 @@ class Playlists extends PureComponent {
   static propTypes = {
     changePlaylistsFilter: PropTypes.func.isRequired,
     className: PropTypes.string,
-    count: PropTypes.number.isRequired,
     empty: PropTypes.bool.isRequired,
     filter: PropTypes.string.isRequired,
     getFeaturedPlaylists: PropTypes.func.isRequired,
     hasError: PropTypes.bool.isRequired,
+    hasMore: PropTypes.number.isRequired,
     loading: PropTypes.bool.isRequired,
     loaded: PropTypes.bool.isRequired,
     playlists: PropTypes.arrayOf(PlaylistShape).isRequired,
@@ -79,10 +79,10 @@ class Playlists extends PureComponent {
   render() {
     const {
       className,
-      count,
       empty,
       filter,
       hasError,
+      hasMore,
       loading,
       loaded,
       playlists,
@@ -122,7 +122,7 @@ class Playlists extends PureComponent {
             pageStart={1}
             initialLoad={false}
             className="Playlists__items"
-            hasMore={totalCount > count}
+            hasMore={hasMore}
             loadMore={this.loadMore}
             loader={
               <div className="Playlists__message Playlists__message--loading" key="loading">

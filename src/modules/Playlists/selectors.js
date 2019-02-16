@@ -21,6 +21,12 @@ export const getPlaylistsFilterSelector = pipe(
   prop('filter')
 );
 
+export const hasPlaylistsFilterSelector = pipe(
+  getPlaylistsFilterSelector,
+  isEmpty,
+  not
+);
+
 const featuredPlaylistsSelector = pipe(
   basePlaylistsSelector,
   prop('featured')
@@ -79,17 +85,29 @@ export const getFilteredPlaylistsSelector = createSelector(
     )(playlists)
 );
 
-export const isEmptyPlaylistsSelector = pipe(
+export const isEmptyFeaturedPlaylistsSelector = pipe(
   getFilteredPlaylistsSelector,
   isEmpty
 );
 
-export const getPlaylistsCountSelector = pipe(
+export const getFeaturedPlaylistsCountSelector = pipe(
   getFeaturedPlaylistsSelector,
   length
 );
 
-export const getPlaylistsTotalCountSelector = pipe(
+export const getFilteredPlaylistsCountSelector = pipe(
+  getFilteredPlaylistsSelector,
+  length
+);
+
+export const getFeaturedPlaylistsTotalCountSelector = pipe(
   getFeaturedPlaylistsDataSelector,
   prop('total')
+);
+
+export const hasMoreFeaturedPlaylistsSelector = createSelector(
+  hasPlaylistsFilterSelector,
+  getFeaturedPlaylistsCountSelector,
+  getFeaturedPlaylistsTotalCountSelector,
+  (hasFilter, count, totalCount) => !hasFilter && totalCount > count
 );
