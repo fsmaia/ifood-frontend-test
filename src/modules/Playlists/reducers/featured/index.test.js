@@ -4,7 +4,8 @@ import {
   hasLoadedFeaturedPlaylistsSelector,
   getFilteredPlaylistsSelector,
   getFeaturedPlaylistsDataSelector,
-  getFeaturedPlaylistsErrorSelector
+  hashasErrorFeaturedPlaylistsSelector,
+  hasErrorFeaturedPlaylistsSelector
 } from '../../selectors';
 import {
   getFeaturedPlaylistsRequestedAction,
@@ -29,7 +30,7 @@ describe('reducers/playlists/featured', () => {
     });
 
     it('has no errors', () => {
-      expect(getFeaturedPlaylistsErrorSelector(initialState)).toBeUndefined();
+      expect(hasErrorFeaturedPlaylistsSelector(initialState)).toBeFalsy();
     });
   });
 
@@ -49,12 +50,15 @@ describe('reducers/playlists/featured', () => {
     });
 
     it('has no errors', () => {
-      expect(getFeaturedPlaylistsErrorSelector(state)).toBeUndefined();
+      expect(hasErrorFeaturedPlaylistsSelector(state)).toBeFalsy();
     });
   });
 
   describe('GET_FEATURED_PLAYLISTS_SUCCESS', () => {
-    const data = ['1'];
+    const data = {
+      items: ['1'],
+      page: 1
+    };
     const state = rootReducer({}, getFeaturedPlaylistsSuccessAction(data));
 
     it('is not loading', () => {
@@ -70,7 +74,7 @@ describe('reducers/playlists/featured', () => {
     });
 
     it('has no errors', () => {
-      expect(getFeaturedPlaylistsErrorSelector(state)).toBeUndefined();
+      expect(hasErrorFeaturedPlaylistsSelector(state)).toBeFalsy();
     });
   });
 
@@ -91,7 +95,7 @@ describe('reducers/playlists/featured', () => {
     });
 
     it('has errors', () => {
-      expect(getFeaturedPlaylistsErrorSelector(state)).toEqual(error);
+      expect(hasErrorFeaturedPlaylistsSelector(state)).toBeTruthy();
     });
   });
 });

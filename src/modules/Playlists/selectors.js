@@ -47,16 +47,15 @@ export const hasLoadedFeaturedPlaylistsSelector = pipe(
   prop('loaded')
 );
 
-export const hasErrorFeaturedPlaylistsSelector = pipe(
-  featuredPlaylistsSelector,
-  prop('error'),
-  isNil,
-  not
-);
-
 export const getFeaturedPlaylistsErrorSelector = pipe(
   featuredPlaylistsSelector,
   prop('error')
+);
+
+export const hasErrorFeaturedPlaylistsSelector = pipe(
+  getFeaturedPlaylistsErrorSelector,
+  isNil,
+  not
 );
 
 export const getFeaturedPlaylistsDataSelector = pipe(
