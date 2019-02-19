@@ -11,7 +11,12 @@ import { saveAuthorizationAccessToken } from './actions';
 )
 class Authorization extends PureComponent {
   static propTypes = {
+    hash: PropTypes.string,
     saveAccessToken: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    hash: window.location.hash
   };
 
   state = {
@@ -19,7 +24,7 @@ class Authorization extends PureComponent {
   };
 
   componentDidMount() {
-    const { access_token: token } = parse(window.location.hash);
+    const { access_token: token } = parse(this.props.hash);
 
     if (token) {
       this.props.saveAccessToken(token);

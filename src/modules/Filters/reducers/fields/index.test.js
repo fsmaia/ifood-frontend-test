@@ -25,7 +25,7 @@ describe('reducers/filters/fields', () => {
     });
 
     it('has no data', () => {
-      expect(getFiltersFieldsSelector(initialState)).toEqual([]);
+      expect(getFiltersFieldsDataSelector(initialState)).toEqual([]);
     });
 
     it('has no errors', () => {
@@ -45,7 +45,7 @@ describe('reducers/filters/fields', () => {
     });
 
     it('has no data', () => {
-      expect(getFiltersFieldsSelector(state)).toEqual([]);
+      expect(getFiltersFieldsDataSelector(state)).toEqual([]);
     });
 
     it('has no errors', () => {
@@ -54,7 +54,75 @@ describe('reducers/filters/fields', () => {
   });
 
   describe('GET_FILTERS_SUCCESS', () => {
-    const data = ['1'];
+    const data = [
+      {
+        id: 'select',
+        name: 'Select',
+        values: [
+          {
+            value: 'en_AU',
+            name: 'en_AU'
+          },
+          {
+            value: 'de_DE',
+            name: 'de_DE '
+          }
+        ]
+      },
+      {
+        id: 'timestamp',
+        name: 'Timestamp',
+        validation: {
+          primitiveType: 'STRING',
+          entityType: 'DATE_TIME',
+          pattern: 'yyyy-MM-ddTHH:mm:ss'
+        }
+      },
+      {
+        id: 'text',
+        name: 'Text',
+        validation: {
+          primitiveType: 'STRING'
+        }
+      }
+    ];
+
+    const convertedData = [
+      {
+        id: 'select',
+        name: 'Select',
+        type: 'SELECT',
+        values: [
+          {
+            value: 'en_AU',
+            name: 'en_AU'
+          },
+          {
+            value: 'de_DE',
+            name: 'de_DE '
+          }
+        ]
+      },
+      {
+        id: 'timestamp',
+        name: 'Timestamp',
+        type: 'DATE',
+        validation: {
+          primitiveType: 'STRING',
+          entityType: 'DATE_TIME',
+          pattern: 'yyyy-MM-ddTHH:mm:ss'
+        }
+      },
+      {
+        id: 'text',
+        name: 'Text',
+        type: 'TEXT',
+        validation: {
+          primitiveType: 'STRING'
+        }
+      }
+    ];
+
     const state = rootReducer({}, getFiltersSuccessAction(data));
 
     it('is not loading', () => {
@@ -65,8 +133,12 @@ describe('reducers/filters/fields', () => {
       expect(hasLoadedFiltersFieldsSelector(state)).toBeTruthy();
     });
 
-    it('has no data', () => {
+    it('has data', () => {
       expect(getFiltersFieldsDataSelector(state)).toEqual(data);
+    });
+
+    it('has filters with type', () => {
+      expect(getFiltersFieldsSelector(state)).toEqual(convertedData);
     });
 
     it('has no errors', () => {

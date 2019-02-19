@@ -4,7 +4,8 @@ import {
   hasLoadedFeaturedPlaylistsSelector,
   getFilteredPlaylistsSelector,
   getFeaturedPlaylistsDataSelector,
-  hasErrorFeaturedPlaylistsSelector
+  hasErrorFeaturedPlaylistsSelector,
+  hasMoreFeaturedPlaylistsSelector
 } from '../../selectors';
 import {
   getFeaturedPlaylistsRequestedAction,
@@ -68,8 +69,12 @@ describe('reducers/playlists/featured', () => {
       expect(hasLoadedFeaturedPlaylistsSelector(state)).toBeTruthy();
     });
 
-    it('has no data', () => {
+    it('has data', () => {
       expect(getFeaturedPlaylistsDataSelector(state)).toEqual(data);
+    });
+
+    it('has no more featured playlists', () => {
+      expect(hasMoreFeaturedPlaylistsSelector(state)).toBeFalsy();
     });
 
     it('has no errors', () => {
