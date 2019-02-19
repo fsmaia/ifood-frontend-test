@@ -1,4 +1,4 @@
-import { filter, isEmpty, map, pipe, prop } from 'ramda';
+import { filter, isEmpty, map, pipe, prop, isNil, not } from 'ramda';
 import { FILTER_FIELD_TYPES } from './constants';
 
 const findFilterType = ({ validation, values }) => {
@@ -38,6 +38,12 @@ export const hasLoadedFiltersFieldsSelector = pipe(
 export const getFiltersFieldsErrorSelector = pipe(
   baseFiltersFieldsSelector,
   prop('error')
+);
+
+export const hasErrorFiltersFieldsSelector = pipe(
+  getFiltersFieldsErrorSelector,
+  isNil,
+  not
 );
 
 export const getFiltersFieldsDataSelector = pipe(

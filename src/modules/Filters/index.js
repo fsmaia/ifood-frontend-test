@@ -10,7 +10,8 @@ import {
   getFiltersFieldsSelector,
   hasLoadedFiltersFieldsSelector,
   isLoadingFiltersFieldsSelector,
-  getFiltersValuesSelector
+  getFiltersValuesSelector,
+  hasErrorFiltersFieldsSelector
 } from './selectors';
 import { FilterFieldShape, FilterValuesShape } from './shapes';
 import { FILTER_FIELD_TYPES } from './constants';
@@ -24,6 +25,7 @@ import Button from '../UI/components/Button';
 @connect(
   state => ({
     fields: getFiltersFieldsSelector(state),
+    hasError: hasErrorFiltersFieldsSelector(state),
     loaded: hasLoadedFiltersFieldsSelector(state),
     loading: isLoadingFiltersFieldsSelector(state),
     token: getAuthorizationTokenSelector(state),
@@ -38,6 +40,7 @@ class Filters extends PureComponent {
     fields: PropTypes.arrayOf(FilterFieldShape),
     getFeaturedPlaylists: PropTypes.func.isRequired,
     getFilters: PropTypes.func.isRequired,
+    hasError: PropTypes.bool.isRequired,
     loaded: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
     values: FilterValuesShape.isRequired,
@@ -83,7 +86,7 @@ class Filters extends PureComponent {
   };
 
   render() {
-    const { className, fields, loaded, loading, values } = this.props;
+    const { className, fields, hasError, loaded, loading, values } = this.props;
 
     return (
       <div className={classNames(className, 'Filters')}>
@@ -93,7 +96,13 @@ class Filters extends PureComponent {
           )}
         </SectionHeader>
 
-        {loading && <div className="Filters__loading">Loading...</div>}
+        {hasError && (
+          <div className="Filters__message Filters__message--error">
+            There was an error retrieving filters setup. Try again in a few minutes.
+          </div>
+        )}
+
+        {loading && <div className="Filters__message Filters__message--loading">Loading...</div>}
 
         {loaded && (
           <div className="Filters__fields">

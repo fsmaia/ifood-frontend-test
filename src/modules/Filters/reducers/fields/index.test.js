@@ -1,10 +1,10 @@
 import rootReducer from '../../../../reducers';
 import {
   isLoadingFiltersFieldsSelector,
+  hasErrorFiltersFieldsSelector,
   hasLoadedFiltersFieldsSelector,
   getFiltersFieldsSelector,
-  getFiltersFieldsDataSelector,
-  getFiltersFieldsErrorSelector
+  getFiltersFieldsDataSelector
 } from '../../selectors';
 import {
   getFiltersRequestedAction,
@@ -29,7 +29,7 @@ describe('reducers/filters/fields', () => {
     });
 
     it('has no errors', () => {
-      expect(getFiltersFieldsErrorSelector(initialState)).toBeUndefined();
+      expect(hasErrorFiltersFieldsSelector(initialState)).toBeFalsy();
     });
   });
 
@@ -49,7 +49,7 @@ describe('reducers/filters/fields', () => {
     });
 
     it('has no errors', () => {
-      expect(getFiltersFieldsErrorSelector(state)).toBeUndefined();
+      expect(hasErrorFiltersFieldsSelector(state)).toBeFalsy();
     });
   });
 
@@ -70,7 +70,7 @@ describe('reducers/filters/fields', () => {
     });
 
     it('has no errors', () => {
-      expect(getFiltersFieldsErrorSelector(state)).toBeUndefined();
+      expect(hasErrorFiltersFieldsSelector(state)).toBeFalsy();
     });
   });
 
@@ -91,7 +91,7 @@ describe('reducers/filters/fields', () => {
     });
 
     it('has errors', () => {
-      expect(getFiltersFieldsErrorSelector(state)).toEqual(error);
+      expect(hasErrorFiltersFieldsSelector(state)).toBeTruthy();
     });
   });
 });
