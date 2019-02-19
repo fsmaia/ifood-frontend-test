@@ -22,6 +22,7 @@ import SectionHeader from '../App/components/SectionHeader';
 import FieldText from '../UI/components/FieldText';
 import { getFiltersValuesSelector } from '../Filters/selectors';
 import { FilterValuesShape } from '../Filters/shapes';
+import { FEATURED_PLAYLISTS_UPDATE_INTERVAL } from './constants';
 
 @connect(
   state => ({
@@ -60,10 +61,20 @@ class Playlists extends PureComponent {
     totalCount: 0
   };
 
-  componentDidMount() {
-    const { token, values } = this.props;
+  interval = null;
 
-    this.props.getFeaturedPlaylists(token, values);
+  componentDidMount() {
+    const { token } = this.props;
+
+    this.props.getFeaturedPlaylists(token, this.props.values);
+
+    this.interval = setInterval(() => {
+      this.props.getFeaturedPlaylists(token, this.props.values);
+    }, FEATURED_PLAYLISTS_UPDATE_INTERVAL);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   handleFilterChange = event => {

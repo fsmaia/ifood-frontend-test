@@ -15,8 +15,9 @@ export const getFeaturedPlaylistsErrorAction = error => ({
   type: GET_FEATURED_PLAYLISTS_ERROR,
   error
 });
-export const getFeaturedPlaylistsRequestedAction = () => ({
-  type: GET_FEATURED_PLAYLISTS_REQUESTED
+export const getFeaturedPlaylistsRequestedAction = page => ({
+  type: GET_FEATURED_PLAYLISTS_REQUESTED,
+  page
 });
 export const getFeaturedPlaylistsSuccessAction = (data, page) => ({
   type: GET_FEATURED_PLAYLISTS_SUCCESS,

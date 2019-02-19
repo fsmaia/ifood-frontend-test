@@ -21,7 +21,7 @@ export default (state = initialState, action) => {
     case GET_FEATURED_PLAYLISTS_REQUESTED:
       return {
         ...initialState,
-        data: state.data,
+        data: action.page === 1 ? initialState.data : state.data,
         loading: true
       };
     case GET_FEATURED_PLAYLISTS_SUCCESS:
